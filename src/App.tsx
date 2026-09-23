@@ -1,6 +1,7 @@
 import confetti from 'canvas-confetti'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useReducer, useState } from 'react'
+import { syncStatusBar } from './lib/native'
 import { Board } from './components/Board'
 import { NumberPad, Toolbar } from './components/Controls'
 import { Header } from './components/Header'
@@ -39,6 +40,7 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark)
+    syncStatusBar(dark)
     try {
       localStorage.setItem('sudoku:theme', dark ? 'dark' : 'light')
     } catch {
@@ -99,7 +101,7 @@ export default function App() {
   const startNew = (d: Difficulty) => dispatch({ type: 'new', difficulty: d })
 
   return (
-    <div className="relative flex min-h-dvh items-start justify-center overflow-hidden px-4 py-6 sm:items-center">
+    <div className="relative flex min-h-dvh items-start justify-center overflow-hidden px-4 pt-[max(1.5rem,var(--safe-area-inset-top,env(safe-area-inset-top)))] pb-[max(1.5rem,var(--safe-area-inset-bottom,env(safe-area-inset-bottom)))] sm:items-center">
       <div aria-hidden className="blob top-[-10%] left-[-10%] size-[45vmax] bg-violet-400" />
       <div aria-hidden className="blob right-[-15%] bottom-[-10%] size-[40vmax] bg-pink-400 [animation-delay:-7s]" />
       <div aria-hidden className="blob top-[30%] right-[20%] size-[25vmax] bg-amber-300 [animation-delay:-14s]" />
